@@ -285,12 +285,13 @@
 
   :on-timer
   (fn [screen entities]
-    (update! screen :tic-count (inc (:tic-count screen)))
     (case (:id screen)
-      :tic (->> entities
-            (map #(update-flatlander % entities))
-            (filter :alive?)
-            (spawn-children))))
+      :tic (do
+             (update! screen :tic-count (inc (:tic-count screen)))
+             (->> entities
+                  (map #(update-flatlander % entities))
+                  (filter :alive?)
+                  (spawn-children)))))
 
   :on-render
   (fn [screen entities]
